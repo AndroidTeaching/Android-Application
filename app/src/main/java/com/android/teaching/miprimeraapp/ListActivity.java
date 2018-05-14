@@ -58,8 +58,7 @@ public class ListActivity extends AppCompatActivity {
                 // Abrir activity de detalle
                 Intent intent = new Intent(ListActivity.this,
                         GameDetailActivity.class);
-                int gameId = new GamesInteractor().getGames().get(position).getId();
-                intent.putExtra("game_id", gameId);
+                intent.putExtra("game_position", position);
                 startActivity(intent);
             }
         });

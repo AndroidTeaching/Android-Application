@@ -13,7 +13,8 @@
         <activity
             android:name=".ProfileActivity"
             android:parentActivityName=".login.view.LoginActivity" />
-        <activity android:name=".GameDetailActivity" />
+        <activity android:name=".GameDetailActivity"
+            android:parentActivityName=".ListActivity"/>
         <activity
             android:name=".login.view.LoginActivity"
             android:label="Login"

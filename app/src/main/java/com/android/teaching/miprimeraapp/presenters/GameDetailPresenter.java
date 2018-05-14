@@ -4,6 +4,8 @@ import com.android.teaching.miprimeraapp.interactors.GamesInteractor;
 import com.android.teaching.miprimeraapp.model.GameModel;
 import com.android.teaching.miprimeraapp.view.GameDetailView;
 
+import java.util.ArrayList;
+
 public class GameDetailPresenter {
 
     private GamesInteractor interactor;
@@ -17,6 +19,10 @@ public class GameDetailPresenter {
     public void loadGameWithId(int id) {
         GameModel game = interactor.getGameWithId(id);
         view.onGameLoaded(game);
+    }
+
+    public ArrayList<GameModel> getGames() {
+        return interactor.getGames();
     }
 }
 
