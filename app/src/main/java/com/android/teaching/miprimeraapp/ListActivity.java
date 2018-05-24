@@ -31,6 +31,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.bumptech.glide.Glide;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -59,6 +60,7 @@ public class ListActivity extends AppCompatActivity {
         gamesFirebaseInteractor.getGames(new GamesInteractorCallback() {
             @Override
             public void onGamesAvailable() {
+                findViewById(R.id.loading).setVisibility(View.GONE);
                 // Aquí, GamesFirebaseInteractor ya tiene la lista de juegos
                 myAdapter = new MyAdapter();
                 listView.setAdapter(myAdapter);
@@ -134,6 +136,9 @@ public class ListActivity extends AppCompatActivity {
             View rowView = inflater.inflate(R.layout.list_item, parent, false);
 
             ImageView icon = rowView.findViewById(R.id.image_view);
+            Glide.with(ListActivity.this).load(
+                    gamesFirebaseInteractor.getGames().get(position).getIcon())
+                    .into(icon);
             //icon.setImageResource(gameIcons.get(position));
 
             TextView textView = rowView.findViewById(R.id.text_view);

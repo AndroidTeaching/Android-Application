@@ -85,7 +85,7 @@ public class GameDetailActivity extends AppCompatActivity
         @Nullable
         @Override
         public CharSequence getPageTitle(int position) {
-            return presenter.getGames().get(position).getName();
+            return "";//presenter.getGames().get(position).getName();
         }
 
         @Override
