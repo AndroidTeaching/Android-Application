@@ -18,14 +18,14 @@ public class GamesInteractor {
             GameModel overwatchGameModel = new GameModel(0, "Overwatch",
                     "Descripción Overwatch",
                     "https://playoverwatch.com/en-us/",
-                    R.drawable.overwatch_icon,
-                    R.drawable.overwatch_landing);
+                    "",
+                    "");
 
             GameModel lolGameModel = new GameModel(1, "League Of Legends",
                     "Descripción LoL",
                     "https://play.euw.leagueoflegends.com/es_ES",
-                    R.drawable.lol_icon,
-                    R.drawable.lol_background);
+                    "",
+                    "");
 
             games = new ArrayList<>();
             games.add(overwatchGameModel);

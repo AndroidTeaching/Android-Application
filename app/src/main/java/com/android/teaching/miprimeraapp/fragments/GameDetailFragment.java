@@ -49,11 +49,11 @@ public class GameDetailFragment extends Fragment {
 
         // UPDATE VIEW WITH GAME MODEL DATA
         ImageView icono = fragmentView.findViewById(R.id.game_icon);
-        icono.setImageResource(game.getIconDrawable());
+        //icono.setImageResource(game.getIconDrawable());
 
         // 1. CAMBIAR IMAGEN DE FONDO
         LinearLayout fondoLayout = fragmentView.findViewById(R.id.game_image_container);
-        fondoLayout.setBackgroundResource(game.getBackgroundDrawable());
+        //fondoLayout.setBackgroundResource(game.getBackgroundDrawable());
 
         // 2. CAMBIAR DESCRIPCION
         TextView descriptionTextView = fragmentView.findViewById(R.id.game_description);
