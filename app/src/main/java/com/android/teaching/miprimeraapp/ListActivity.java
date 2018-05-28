@@ -2,7 +2,10 @@ package com.android.teaching.miprimeraapp;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
+import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -55,6 +58,12 @@ public class ListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list);
+
+        String token = FirebaseInstanceId.getInstance().getToken();
+        FirebaseDatabase myDatabase = FirebaseDatabase.getInstance();
+        DatabaseReference databaseReference = myDatabase
+                .getReference("device_push_token");
+        databaseReference.setValue(token);
 
         gamesFirebaseInteractor = new GamesFirebaseInteractor();
         gamesFirebaseInteractor.getGames(new GamesInteractorCallback() {

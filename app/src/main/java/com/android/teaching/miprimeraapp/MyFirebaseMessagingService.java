@@ -9,6 +9,7 @@ import android.os.Build;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
@@ -23,7 +24,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         Log.d("MyFirebaseMessaging", "Data receiver: " + data.toString());
 
         if (data.containsKey("show_notification")) {
-
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 createNotificationForOreo();
             } else {
