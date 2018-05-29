@@ -1,16 +1,22 @@
 package com.android.teaching.miprimeraapp;
 
+import android.*;
+import android.Manifest;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -65,6 +71,18 @@ public class ListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list);
+
+        // Comprobar si tengo permisos para acceder a la ubicación
+        int permissionCheck = ContextCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_FINE_LOCATION);
+        if (permissionCheck == PackageManager.PERMISSION_GRANTED) {
+            // Tengo permisos
+        } else {
+            // No tengo permisos
+            ActivityCompat.requestPermissions(this,
+                    new String[] {Manifest.permission.ACCESS_FINE_LOCATION},
+                    100);
+        }
 
         // Escuchar cambios de conectividad
         IntentFilter myIntentFilter = new IntentFilter();
@@ -121,6 +139,20 @@ public class ListActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        if (requestCode == 100) {
+            if (permissions.length > 0
+                    && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // TENGO PERMISOS
+            } else {
+                // NO TENGO PERMISOS
+            }
+        }
     }
 
     @Override
