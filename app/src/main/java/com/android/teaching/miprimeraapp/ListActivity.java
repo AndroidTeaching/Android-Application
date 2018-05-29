@@ -1,5 +1,6 @@
 package com.android.teaching.miprimeraapp;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -58,11 +59,18 @@ public class ListActivity extends AppCompatActivity {
     private MyAdapter myAdapter;
     private ListView listView;
     private GamesFirebaseInteractor gamesFirebaseInteractor;
+    private MyConnectivityReceiver myConnectivityReceiver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list);
+
+        // Escuchar cambios de conectividad
+        IntentFilter myIntentFilter = new IntentFilter();
+        myIntentFilter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
+        myConnectivityReceiver = new MyConnectivityReceiver();
+        registerReceiver(myConnectivityReceiver, myIntentFilter);
 
         // Detectar si tenemos conectividad
         ConnectivityManager myConnectivtyManager = (ConnectivityManager) getSystemService(
@@ -113,6 +121,12 @@ public class ListActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        unregisterReceiver(myConnectivityReceiver);
     }
 
     @Override
