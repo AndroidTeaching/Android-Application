@@ -3,7 +3,11 @@ package com.android.teaching.miprimeraapp;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -21,6 +25,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.teaching.miprimeraapp.interactors.GamesFirebaseInteractor;
 import com.android.teaching.miprimeraapp.interactors.GamesInteractor;
@@ -59,22 +64,39 @@ public class ListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list);
 
-        String token = FirebaseInstanceId.getInstance().getToken();
-        FirebaseDatabase myDatabase = FirebaseDatabase.getInstance();
-        DatabaseReference databaseReference = myDatabase
-                .getReference("device_push_token");
-        databaseReference.setValue(token);
+        // Detectar si tenemos conectividad
+        ConnectivityManager myConnectivtyManager = (ConnectivityManager) getSystemService(
+                Context.CONNECTIVITY_SERVICE);
+        NetworkInfo myNetworkInfo = myConnectivtyManager.getActiveNetworkInfo();
+        boolean hasConnectivity = myNetworkInfo != null
+                && myNetworkInfo.isConnectedOrConnecting();
 
-        gamesFirebaseInteractor = new GamesFirebaseInteractor();
-        gamesFirebaseInteractor.getGames(new GamesInteractorCallback() {
-            @Override
-            public void onGamesAvailable() {
-                findViewById(R.id.loading).setVisibility(View.GONE);
-                // Aquí, GamesFirebaseInteractor ya tiene la lista de juegos
-                myAdapter = new MyAdapter();
-                listView.setAdapter(myAdapter);
-            }
-        });
+        // Si tengo conectividad, hago las peticiones a Firebase
+        if(hasConnectivity) {
+            // region Firebase
+            String token = FirebaseInstanceId.getInstance().getToken();
+            FirebaseDatabase myDatabase = FirebaseDatabase.getInstance();
+            DatabaseReference databaseReference = myDatabase
+                    .getReference("device_push_token");
+            databaseReference.setValue(token);
+
+            gamesFirebaseInteractor = new GamesFirebaseInteractor();
+            gamesFirebaseInteractor.getGames(new GamesInteractorCallback() {
+                @Override
+                public void onGamesAvailable() {
+                    findViewById(R.id.loading).setVisibility(View.GONE);
+                    // Aquí, GamesFirebaseInteractor ya tiene la lista de juegos
+                    myAdapter = new MyAdapter();
+                    listView.setAdapter(myAdapter);
+                }
+            });
+            // endregion
+        } else {
+            // Si no tengo conectividad, escondo el loading y muestro un error
+            findViewById(R.id.loading).setVisibility(View.GONE);
+            Toast.makeText(this, "You don't have Internet connection!",
+                    Toast.LENGTH_LONG).show();
+        }
 
         Toolbar myToolbar = findViewById(R.id.toolbar);
         setSupportActionBar(myToolbar);
