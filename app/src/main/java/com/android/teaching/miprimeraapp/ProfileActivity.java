@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteConstraintException;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -249,7 +250,7 @@ public class ProfileActivity extends AppCompatActivity {
         File myFile = createImageFile();
         if (myFile.exists()) {
             ImageView imageView = findViewById(R.id.image_profile);
-            imageView.setImageURI(Uri.fromFile(myFile));
+            imageView.setImageBitmap(BitmapFactory.decodeFile(myFile.getAbsolutePath()));
         }
     }
 
