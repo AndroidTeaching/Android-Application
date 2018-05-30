@@ -77,6 +77,7 @@ public class ListActivity extends AppCompatActivity {
                 Manifest.permission.ACCESS_FINE_LOCATION);
         if (permissionCheck == PackageManager.PERMISSION_GRANTED) {
             // Tengo permisos
+            obtenerUbicacion();
         } else {
             // No tengo permisos
             ActivityCompat.requestPermissions(this,
@@ -149,6 +150,7 @@ public class ListActivity extends AppCompatActivity {
             if (permissions.length > 0
                     && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 // TENGO PERMISOS
+                obtenerUbicacion();
             } else {
                 // NO TENGO PERMISOS
             }
@@ -224,5 +226,38 @@ public class ListActivity extends AppCompatActivity {
 
             return rowView;
         }
+    }
+
+    @SuppressLint("MissingPermission")
+    private void obtenerUbicacion() {
+        // 1. Obtener LocationManager
+        LocationManager myLocationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+
+        // 2. Crear el Listener
+        LocationListener myListener = new LocationListener() {
+            @Override
+            public void onLocationChanged(Location location) {
+                Log.d("ListActivity","Location changed: " + location.toString());
+            }
+
+            @Override
+            public void onStatusChanged(String provider, int status, Bundle extras) {
+
+            }
+
+            @Override
+            public void onProviderEnabled(String provider) {
+
+            }
+
+            @Override
+            public void onProviderDisabled(String provider) {
+
+            }
+        };
+
+        //  3. Escuchar las actualizaciones
+        myLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,
+                0,0, myListener);
     }
 }

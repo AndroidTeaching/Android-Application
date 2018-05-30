@@ -27,17 +27,17 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 createNotificationForOreo();
             } else {
-                createNotificationForLowerThanOreo();
+                createNotificationForLowerThanOreo(remoteMessage);
             }
         }
     }
 
-    private void createNotificationForLowerThanOreo() {
+    private void createNotificationForLowerThanOreo(RemoteMessage message) {
         NotificationCompat.Builder builder = new NotificationCompat
                 .Builder(this)
                 .setSmallIcon(R.mipmap.ic_launcher)
-                .setContentTitle("HOLA CLASE")
-                .setContentText("Hoy estáis de lunes (y yo también)");
+                .setContentTitle(message.getNotification().getTitle())
+                .setContentText(message.getNotification().getBody());
 
         NotificationManager notificationManager = getSystemService(NotificationManager.class);
         notificationManager.notify(1, builder.build());
