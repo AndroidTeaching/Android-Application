@@ -4,11 +4,15 @@ import android.app.DatePickerDialog;
 import android.arch.persistence.room.Room;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteConstraintException;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.provider.MediaStore;
+import android.support.v4.content.FileProvider;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -24,7 +28,10 @@ import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+
 import java.io.File;
+import java.io.IOException;
 import java.util.Calendar;
 
 public class ProfileActivity extends AppCompatActivity {
@@ -85,6 +92,8 @@ public class ProfileActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
+
+
         SharedPreferences myPreferences = getSharedPreferences(
                 getString(R.string.user_preferences),
                 Context.MODE_PRIVATE
@@ -106,7 +115,6 @@ public class ProfileActivity extends AppCompatActivity {
                 radioButtonFemale.setChecked(true);
             }
         }
-
     }
 
     @Override
@@ -138,11 +146,12 @@ public class ProfileActivity extends AppCompatActivity {
         Log.d("ProfileActivity", "Password: " + passwordEditText.getText());
         Log.d("ProfileActivity", "Age: " + ageEditText.getText());
 
+
         // Radio Buttons
         if (radioButtonMale.isChecked()) {
             // El usuario ha seleccionado "H"
             Log.d("ProfileActivity", "Gender: male");
-        } else if(radioButtonFemale.isChecked()) {
+        } else if (radioButtonFemale.isChecked()) {
             // El usuario ha seleccionado "M"
             Log.d("ProfileActivity", "Gender: female");
         }
@@ -161,7 +170,7 @@ public class ProfileActivity extends AppCompatActivity {
             myNewUser.setAge(ageEditText.getText().toString());
             if (radioButtonMale.isChecked()) {
                 myNewUser.setGender("H");
-            } else if (radioButtonFemale.isChecked()){
+            } else if (radioButtonFemale.isChecked()) {
                 myNewUser.setGender("M");
             }
             myDatabase.userDao().insert(myNewUser);
@@ -178,7 +187,7 @@ public class ProfileActivity extends AppCompatActivity {
     /**
      * Método que se ejecutará cuando el usuario pulse "Delete"
      *
-     * @param view  -
+     * @param view -
      */
     public void onDelete(View view) {
         // Mostrar un dialogo de confirmación
@@ -233,12 +242,48 @@ public class ProfileActivity extends AppCompatActivity {
         return false;
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
 
+        File myFile = createImageFile();
+        if (myFile.exists()) {
+            ImageView imageView = findViewById(R.id.image_profile);
+            imageView.setImageURI(Uri.fromFile(myFile));
+        }
+    }
 
+    private File createImageFile() {
+        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        return new File(storageDir, "profile.jpg");
+    }
 
-
-
-
-
-
+    public void camaraIntent(View view) {
+        // El usuario ha pulsado la imagen de perfil
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+            File outputFile = createImageFile();
+            outputFile.delete();
+            Uri fileUri = FileProvider.getUriForFile(this,
+                    "com.android.teaching.miprimeraapp",
+                    outputFile);
+            takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri);
+            // Si alguna aplicación de mi dispositivo puede hacer fotos
+            startActivityForResult(takePictureIntent, 100);
+        }
+    }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
