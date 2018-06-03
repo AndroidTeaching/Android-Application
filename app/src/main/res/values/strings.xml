@@ -39,17 +39,33 @@ Ahora, con el mundo sumiéndose en el caos una vez más, héroes de antaño y de
         com.android.teaching.miprimeraapp.user_preferences
     </string>
 
-
-
-
-
-
-
-
-
-
-
-
+    <string-array name="colors">
+        <item>#ff0000</item>
+        <item>#ff4000</item>
+        <item>#ff8000</item>
+        <item>#ffbf00</item>
+        <item>#ffff00</item>
+        <item>#bfff00</item>
+        <item>#80ff00</item>
+        <item>#40ff00</item>
+        <item>#00ff00</item>
+        <item>#00ff40</item>
+        <item>#00ff80</item>
+        <item>#00ffbf</item>
+        <item>#00ffff</item>
+        <item>#00bfff</item>
+        <item>#0080ff</item>
+        <item>#0040ff</item>
+        <item>#0000ff</item>
+        <item>#4000ff</item>
+        <item>#8000ff</item>
+        <item>#bf00ff</item>
+        <item>#ff00ff</item>
+        <item>#ff00bf</item>
+        <item>#ff0080</item>
+        <item>#ff0040</item>
+        <item>#ff0000</item>
+    </string-array>
 
 
 </resources>
