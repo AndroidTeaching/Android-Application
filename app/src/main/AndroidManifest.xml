@@ -72,6 +72,10 @@
                 android:resource="@xml/file_paths" />
         </provider>
 
+        <activity android:name=".recycler.RecyclerViewActivity">
+        </activity>
+        <activity android:name=".multimedia.MediaPlayerActivity">
+        </activity>
     </application>
 
 </manifest>
