@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.android.teaching.miprimeraapp.multimedia.MediaPlayerActivity">
@@ -41,16 +42,35 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:onClick="onPlayerPlay"
-                android:text="PLAY"/>
+                android:text="PLAY/PAUSE"/>
 
             <Button
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:onClick="onPlayerPause"
-                android:text="PAUSE"/>
+                android:text="STOP"/>
         </LinearLayout>
     </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-</android.support.constraint.ConstraintLayout>
+        <VideoView
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:id="@+id/video_view"/>
+    </LinearLayout>
+</LinearLayout>
+
+
+
+
+
+
+
+
+
+

@@ -76,6 +76,10 @@
         </activity>
         <activity android:name=".multimedia.MediaPlayerActivity">
         </activity>
+        <service
+            android:name=".multimedia.MediaPlayerService"
+            android:enabled="true"
+            android:exported="true"></service>
     </application>
 
 </manifest>
