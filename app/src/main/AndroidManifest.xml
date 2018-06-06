@@ -80,6 +80,8 @@
             android:name=".multimedia.MediaPlayerService"
             android:enabled="true"
             android:exported="true"></service>
+        <activity android:name=".reactivex.ReactiveXActivity">
+        </activity>
     </application>
 
 </manifest>
