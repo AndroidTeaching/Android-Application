@@ -10,7 +10,11 @@ import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Function;
+import io.reactivex.functions.Predicate;
+import io.reactivex.schedulers.Schedulers;
 
 public class ReactiveXActivity extends AppCompatActivity {
 
@@ -58,6 +62,46 @@ public class ReactiveXActivity extends AppCompatActivity {
         };
 
         integerObservable.subscribe(subscriber);
+
+        // Otro observable
+
+        Observable.just(1, 2, 3, 4, 5, 6, 7, 8, 10)
+                .filter(new Predicate<Integer>() {
+                    @Override
+                    public boolean test(Integer integer) throws Exception {
+                        return integer % 2 == 0;
+                    }
+                })
+                .map(new Function<Integer, Object>() {
+                    @Override
+                    public Object apply(Integer integer) throws Exception {
+                        Thread.sleep(1000);
+                        return Math.pow(integer, 2);
+                    }
+                })
+                .subscribeOn(Schedulers.computation())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<Object>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(Object integer) {
+                        Log.d("RxAndroid", "Subscriber: " + integer.toString());
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
     }
 }
 
